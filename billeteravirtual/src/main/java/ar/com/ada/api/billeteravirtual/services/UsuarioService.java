@@ -1,12 +1,9 @@
 package ar.com.ada.api.billeteravirtual.services;
 import java.util.Date;
-
+import org.springframework.security.authentication.BadCredentialsException;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
-import ar.com.ada.api.billeteravirtual.entities.Persona;
-import ar.com.ada.api.billeteravirtual.entities.Billetera;
-import ar.com.ada.api.billeteravirtual.entities.Cuenta;
-import ar.com.ada.api.billeteravirtual.entities.Usuario;
+import ar.com.ada.api.billeteravirtual.entities.*;
 import ar.com.ada.api.billeteravirtual.repos.UsuarioRepository;
 import ar.com.ada.api.billeteravirtual.security.Crypto;
 
@@ -23,10 +20,21 @@ public class UsuarioService {
   BilleteraService billeteraService;
 
   public Usuario buscarPorUsername(String username) {
-      return null;
+      return repo.findByUsername(username);
   }
 
   public void login(String username, String password) {
+
+    /**
+    * Método IniciarSesion recibe usuario y contraseña validar usuario y contraseña
+    */
+
+    Usuario u = buscarPorUsername(username);
+
+    if (u == null || !u.getPassword().equals(Crypto.encrypt(password, u.getUsername()))) {
+
+      throw new BadCredentialsException("Usuario o contraseña inválida");
+    }
   }
 
 
