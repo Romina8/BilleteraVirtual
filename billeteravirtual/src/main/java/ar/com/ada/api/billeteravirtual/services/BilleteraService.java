@@ -15,7 +15,10 @@ public class BilleteraService {
     @Autowired
     BilleteraRepository repo;
 
-        /*
+    @Autowired
+    UsuarioService usuarioService;
+
+    /*
      * 2. Metodo: enviar plata 2.1-- recibir un importe, la moneda en la que va a
      * estar ese importe recibir una billetera de origen y otra de destino 2.2--
      * actualizar los saldos de las cuentas (a una se le suma y a la otra se le
@@ -106,5 +109,13 @@ public class BilleteraService {
         cuentaEntrante.agregarTransaccion(tEntrante);
 
 
+    }
+
+    public void enviarSaldo(BigDecimal importe, String moneda, Integer billeteraOrigenId, String email, String concepto,
+            String detalle) {
+
+        Usuario usuarioDestino = usuarioService.buscarPorEmail(email);
+        this.enviarSaldo(importe, moneda, billeteraOrigenId,
+                usuarioDestino.getPersona().getBilletera().getBilleteraId(), concepto, detalle);
     }
 }

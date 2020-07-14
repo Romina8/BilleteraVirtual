@@ -80,4 +80,9 @@ public class UsuarioService {
 
     return usuario;
   }
+
+  public Usuario buscarPorEmail(String email){
+
+    return repo.findByEmail(email);
+  }
 }
