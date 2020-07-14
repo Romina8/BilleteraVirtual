@@ -1,6 +1,6 @@
 package ar.com.ada.api.billeteravirtual.services;
 
-import org.springframework.stereotype.Service;
+import ar.com.ada.api.billeteravirtual.entities.Usuario;
 
 @Service
 public class UsuarioService {
@@ -16,5 +16,12 @@ public class UsuarioService {
     2.2-- vamos a validar los datos
     2.3-- devolver un verdadero o falso
     */
+
+    public Usuario buscarPorUsername(String username) {
+		return null;
+	}
+
+	public void login(String username, String password) {
+	}
     
 }
