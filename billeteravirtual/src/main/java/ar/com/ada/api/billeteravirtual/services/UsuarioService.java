@@ -1,6 +1,6 @@
 package ar.com.ada.api.billeteravirtual.services;
 
-import java.util.Date;
+import java.util.*;
 import org.springframework.security.authentication.BadCredentialsException;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +89,15 @@ public class UsuarioService {
   public Usuario buscarPorEmail(String email){
 
     return repo.findByEmail(email);
+  }
+
+  public Usuario buscarPor(Integer id) {
+    Optional<Usuario> usuarioOp = repo.findById(id);
+
+    if(usuarioOp.isPresent()){
+        return usuarioOp.get();
+    }
+
+    return null;
   }
 }

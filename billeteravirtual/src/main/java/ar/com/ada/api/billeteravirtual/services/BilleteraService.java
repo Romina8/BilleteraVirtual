@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ar.com.ada.api.billeteravirtual.entities.Transaccion.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.*;
 import ar.com.ada.api.billeteravirtual.entities.*;
 import ar.com.ada.api.billeteravirtual.repos.BilleteraRepository;
 import ar.com.ada.api.billeteravirtual.sistema.comm.EmailService;
@@ -144,6 +144,17 @@ public class BilleteraService {
         this.grabar(billeteraSaliente);
         this.grabar(billeteraEntrante);
 
+        // se hace envio de mail confirmando el envio al usuario emisor del saldo
+        emailService.SendEmail(billeteraSaliente.getPersona().getUsuario().getEmail(), "Envio de saldo",
+                "Hola, Te avisamos que el envió de " + importe + " " + moneda + " al usuario "
+                        + billeteraEntrante.getPersona().getUsuario().getEmail() + " se realizo correctamente.");
+        // se hace envio de mail confirmando el ingreso de saldo al usuario receptor
+        emailService.SendEmail(billeteraEntrante.getPersona().getUsuario().getEmail(), "Ya tenes disponible tu dinero",
+                "Hola, Recibiste una transferencia de " + importe + " " + moneda + " , por perte de "
+                        + billeteraSaliente.getPersona().getUsuario().getEmail());
+
+
+
         return ResultadoTransaccionEnum.INICIADA;
 
 
@@ -157,5 +168,33 @@ public class BilleteraService {
             return ResultadoTransaccionEnum.EMAIL_DESTINO_INEXISTENTE;
         return this.enviarSaldo(importe, moneda, billeteraOrigenId,
                 usuarioDestino.getPersona().getBilletera().getBilleteraId(), concepto, detalle);
+    }
+
+    public List<Transaccion> listarTransacciones(Billetera billetera, String moneda) {
+
+        List<Transaccion> movimientos = new ArrayList<>();
+
+        Cuenta cuenta = billetera.getCuenta(moneda);
+
+        for (Transaccion transaccion : cuenta.getTransacciones()) {
+
+            movimientos.add(transaccion);
+        }
+
+        return movimientos;
+    }
+
+    public List<Transaccion> listarTransacciones(Billetera billetera) {
+
+        List<Transaccion> movimientos = new ArrayList<>();
+
+        for (Cuenta cuenta : billetera.getCuentas()) {
+
+            for (Transaccion transaccion : cuenta.getTransacciones()) {
+
+                movimientos.add(transaccion);
+            }
+        }
+        return movimientos;
     }
 }
