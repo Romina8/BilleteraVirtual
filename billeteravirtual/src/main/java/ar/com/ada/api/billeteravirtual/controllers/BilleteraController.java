@@ -1,9 +1,10 @@
 package ar.com.ada.api.billeteravirtual.controllers;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import ar.com.ada.api.billeteravirtual.entities.Transaccion.ResultadoTransaccionEnum;
 import org.springframework.web.bind.annotation.*;
 import ar.com.ada.api.billeteravirtual.entities.*;
 import ar.com.ada.api.billeteravirtual.models.response.SaldoResponse;
@@ -77,12 +78,17 @@ public class BilleteraController {
     public ResponseEntity<TransaccionResponse> enviarSaldo(@PathVariable Integer id, @RequestBody EnvioSaldoRequest envio) {
 
         TransaccionResponse response = new TransaccionResponse();
+        ResultadoTransaccionEnum resultado = billeteraService.enviarSaldo(envio.importe, envio.moneda, id, envio.email, envio.motivo, envio.detalle);
+        if (resultado == ResultadoTransaccionEnum.INICIADA) {
+        
+            response.isOk = true;
+            response.message = "Se envio el saldo exitosamente";
+            return ResponseEntity.ok(response);
+        }
+        response.isOk = false;
+        response.message = "Hubo un error al realizar la operacion " + resultado;
 
-        billeteraService.enviarSaldo(envio.importe, envio.moneda, id, envio.email, envio.motivo, envio.detalle);
+        return ResponseEntity.badRequest().body(response);
 
-        response.isOk = true;
-        response.message = "Se envio el saldo exitosamente";
-
-        return ResponseEntity.ok(response);
     }
 }
