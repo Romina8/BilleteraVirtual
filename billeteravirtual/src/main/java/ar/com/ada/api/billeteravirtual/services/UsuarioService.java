@@ -1,4 +1,5 @@
 package ar.com.ada.api.billeteravirtual.services;
+
 import java.util.Date;
 import org.springframework.security.authentication.BadCredentialsException;
 import java.math.BigDecimal;
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ar.com.ada.api.billeteravirtual.entities.*;
 import ar.com.ada.api.billeteravirtual.repos.UsuarioRepository;
 import ar.com.ada.api.billeteravirtual.security.Crypto;
+import ar.com.ada.api.billeteravirtual.sistema.comm.EmailService;
 
 @Service
 public class UsuarioService {
@@ -18,6 +20,9 @@ public class UsuarioService {
 
   @Autowired
   BilleteraService billeteraService;
+
+  @Autowired
+    EmailService emailService;
 
   public Usuario buscarPorUsername(String username) {
       return repo.findByUsername(username);
@@ -77,7 +82,7 @@ public class UsuarioService {
     billeteraService.grabar(billetera);
 
     billeteraService.cargarSaldo(new BigDecimal(500), "ARS", billetera.getBilleteraId(), "Regalo", "Bienvenida por creación de usuario");
-
+    emailService.SendEmail(usuario.getEmail(), "Te damos la bienvenida a tu Billetera Virtual", "Felicidades! Te regalamos 500 ARS como bienvenida a tu Billetera Virtual! :D ");
     return usuario;
   }
 
