@@ -117,6 +117,15 @@ public class Transaccion {
 		this.aCuentaId = aCuentaId;
 	}
 
+	public String getConceptoOperacion() {
+		return conceptoOperacion;
+	}
+
+	public void setConceptoOperacion(String conceptoOperacion) {
+		this.conceptoOperacion = conceptoOperacion;
+	}
+	
+
 	/***
      * En este caso es un ENUMERADO con numeracion default En JAVA. Estos comienzan
      * desde 0 y si intercambiamos el orden el 0 pasa a ser siempre el primero. Si
@@ -172,5 +181,7 @@ public class Transaccion {
 			return status;
 		}
 	}
+
+	
     
 }

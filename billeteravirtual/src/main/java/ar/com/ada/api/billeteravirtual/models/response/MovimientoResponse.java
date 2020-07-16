@@ -5,7 +5,7 @@ import java.util.Date;
 
 import ar.com.ada.api.billeteravirtual.entities.Transaccion.TipoTransaccionEnum;
 
-public class MovimientosResponse {
+public class MovimientoResponse {
 
     public Integer numeroDeTransaccion;
     public Date fecha;

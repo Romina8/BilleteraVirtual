@@ -2,10 +2,12 @@ package ar.com.ada.api.billeteravirtual.services;
 
 import java.util.*;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import ar.com.ada.api.billeteravirtual.entities.*;
-import ar.com.ada.api.billeteravirtual.repos.UsuarioRepository;
+import ar.com.ada.api.billeteravirtual.repositories.UsuarioRepository;
 import ar.com.ada.api.billeteravirtual.security.Crypto;
 import ar.com.ada.api.billeteravirtual.sistema.comm.EmailService;
 

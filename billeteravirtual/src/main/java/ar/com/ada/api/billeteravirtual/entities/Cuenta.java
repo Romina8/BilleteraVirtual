@@ -5,6 +5,8 @@ import ar.com.ada.api.billeteravirtual.entities.Transaccion.TipoTransaccionEnum;
 import java.math.BigDecimal;
 import java.util.*;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 
 @Entity
 public class Cuenta {

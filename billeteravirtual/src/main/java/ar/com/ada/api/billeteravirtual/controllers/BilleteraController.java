@@ -7,7 +7,11 @@ import org.springframework.http.ResponseEntity;
 import ar.com.ada.api.billeteravirtual.entities.Transaccion.ResultadoTransaccionEnum;
 import org.springframework.web.bind.annotation.*;
 import ar.com.ada.api.billeteravirtual.entities.*;
+import ar.com.ada.api.billeteravirtual.models.request.CargaRequest;
+import ar.com.ada.api.billeteravirtual.models.request.EnvioSaldoRequest;
+import ar.com.ada.api.billeteravirtual.models.response.MovimientoResponse;
 import ar.com.ada.api.billeteravirtual.models.response.SaldoResponse;
+import ar.com.ada.api.billeteravirtual.models.response.TransaccionResponse;
 import ar.com.ada.api.billeteravirtual.services.BilleteraService;
 import ar.com.ada.api.billeteravirtual.services.UsuarioService;
 
@@ -20,7 +24,8 @@ public class BilleteraController {
     @Autowired
     UsuarioService usuarioService;
 
-     /* webMetodo 1: consultar saldo: GET URL:/billeteras/{id}/saldos/{moneda}
+    /*
+     * webMetodo 1: consultar saldo: GET URL:/billeteras/{id}/saldos/{moneda}
      * webMetodo 2: cargar saldo: POST URL:/billeteras/{id}/recargas requestBody: {
      * "moneda": "importe": } webMetodo 3:
      * 
@@ -98,16 +103,16 @@ public class BilleteraController {
 
 
     @GetMapping("/billeteras/{id}/movimientos/{moneda}")
-    public ResponseEntity<List<MovimientosResponse>> consultarMovimientos(@PathVariable Integer id, @PathVariable String moneda){
+    public ResponseEntity<List<MovimientoResponse>> consultarMovimientos(@PathVariable Integer id, @PathVariable String moneda){
 
         Billetera billetera = new Billetera();
         billetera = billeteraService.buscarPorId(id);
         List<Transaccion> trancciones = billeteraService.listarTransacciones(billetera, moneda);
-        List<MovimientosResponse> res = new ArrayList<>();
+        List<MovimientoResponse> res = new ArrayList<>();
 
         for (Transaccion transaccion : trancciones) {
 
-            MovimientosResponse movimiento = new MovimientosResponse();
+            MovimientoResponse movimiento = new MovimientoResponse();
             movimiento.numeroDeTransaccion = transaccion.getTransaccionId();
             movimiento.fecha = transaccion.getFecha();
             movimiento.importe = transaccion.getImporte();
@@ -123,16 +128,16 @@ public class BilleteraController {
     }
 
     @GetMapping("/billeteras/{id}/movimientos")
-    public ResponseEntity<List<MovimientosResponse>> consultarMovimientos(@PathVariable Integer id){
+    public ResponseEntity<List<MovimientoResponse>> consultarMovimientos(@PathVariable Integer id){
 
         Billetera billetera = new Billetera();
         billetera = billeteraService.buscarPorId(id);
         List<Transaccion> trancciones = billeteraService.listarTransacciones(billetera);
-        List<MovimientosResponse> res = new ArrayList<>();
+        List<MovimientoResponse> res = new ArrayList<>();
 
         for (Transaccion transaccion : trancciones) {
 
-            MovimientosResponse movimiento = new MovimientosResponse();
+            MovimientoResponse movimiento = new MovimientoResponse();
             movimiento.numeroDeTransaccion = transaccion.getTransaccionId();
             movimiento.fecha = transaccion.getFecha();
             movimiento.importe = transaccion.getImporte();

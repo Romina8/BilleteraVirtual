@@ -6,7 +6,7 @@ import ar.com.ada.api.billeteravirtual.entities.Transaccion.*;
 import java.math.BigDecimal;
 import java.util.*;
 import ar.com.ada.api.billeteravirtual.entities.*;
-import ar.com.ada.api.billeteravirtual.repos.BilleteraRepository;
+import ar.com.ada.api.billeteravirtual.repositories.BilleteraRepository;
 import ar.com.ada.api.billeteravirtual.sistema.comm.EmailService;
 @Service
 public class BilleteraService {
@@ -93,7 +93,7 @@ public class BilleteraService {
     Integer billeteraDestinoId, String concepto, String detalle) {
 
             if (importe.compareTo(new BigDecimal(0)) == -1)
-            return ResultadoTransaccionEnum.ERROR_IMPORTE_NEGATIVO;
+                return ResultadoTransaccionEnum.ERROR_IMPORTE_NEGATIVO;
         /**
          * Metodo enviarSaldo buscar billetera por id se identifica cuenta por moneda
          * determinar importe a transferir billetera de origen y billetera destino
